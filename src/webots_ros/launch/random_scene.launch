@@ -50,7 +50,9 @@
   </group>
 
 
-  <include file="$(find webots_ros)/launch/mobile_arm_moveit.launch"></include>
+  <include file="$(find webots_ros)/launch/mobile_arm_moveit.launch">
+    <arg name="rviz" value="$(arg rviz)"/>
+  </include>
 
   <param name="octomap_frame" type="string" value="odom_combined" />
   <param name="octomap_resolution" type="double" value="0.05" />
