@@ -31,7 +31,18 @@ options, args = optParser.parse_args()
 if 'WEBOTS_HOME' not in os.environ:
     sys.exit('WEBOTS_HOME environment variable not defined.')
 
-command = [os.path.join(os.environ['WEBOTS_HOME'], 'webots'), '--mode=' + options.mode, options.world]
+# run webots with Xvfb if no display is available
+if 'DISPLAY' not in os.environ:
+    if 'XVFB_RUN' in os.environ:
+        command = [os.environ['XVFB_RUN'], '-a']
+    else:
+        command = ['xvfb-run', '-a']
+else:
+    command = []
+# command = [os.path.join(os.environ['WEBOTS_HOME'], 'webots'), '--mode=' + options.mode, options.world]
+command.append(os.path.join(os.environ['WEBOTS_HOME'], 'webots'))
+command.append('--mode=' + options.mode)
+command.append(options.world)
 
 if options.stream.lower() != 'false':
     if options.stream.lower() == 'true':
